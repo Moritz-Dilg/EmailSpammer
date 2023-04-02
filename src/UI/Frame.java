@@ -20,4 +20,6 @@ public abstract class Frame extends JFrame {
         setLocation(500,200);
         setVisible(true);
     }
+
+    public abstract void draw();
 }

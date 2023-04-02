@@ -7,7 +7,10 @@ public class LoginFrame extends Frame {
 
     public LoginFrame() {
         super("Login");
+    }
 
+    @Override
+    public void draw() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -48,6 +51,7 @@ public class LoginFrame extends Frame {
         JButton loginButton = new JButton("Login");
         mainPanel.add(loginButton, BorderLayout.SOUTH);
 
+        pack();
     }
 
 }

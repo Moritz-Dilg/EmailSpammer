@@ -6,7 +6,10 @@ import java.awt.*;
 public class SendMailFrame extends Frame {
     public SendMailFrame() {
         super();
+    }
 
+    @Override
+    public void draw() {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(3, 2));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
@@ -40,5 +43,7 @@ public class SendMailFrame extends Frame {
 
         JButton sendButton = new JButton("Send");
         sendPanel.add(sendButton, BorderLayout.SOUTH);
+
+        pack();
     }
 }
