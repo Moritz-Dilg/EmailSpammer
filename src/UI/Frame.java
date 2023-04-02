@@ -2,6 +2,7 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public abstract class Frame extends JFrame {
     public Frame() {
@@ -22,4 +23,5 @@ public abstract class Frame extends JFrame {
     }
 
     public abstract void draw();
+    public abstract void addButtonListener(ActionListener listener);
 }

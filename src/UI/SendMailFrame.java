@@ -2,8 +2,16 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class SendMailFrame extends Frame {
+
+    private JTextField recipientMailField;
+    private JTextField subjectField;
+    private JTextArea messageArea;
+    private JButton sendButton;
+
+
     public SendMailFrame() {
         super();
     }
@@ -16,12 +24,12 @@ public class SendMailFrame extends Frame {
         this.add(mainPanel, BorderLayout.NORTH);
 
         JLabel recipientMailLabel = new JLabel("To: ");
-        JTextField recipientMailField = new JTextField();
+        recipientMailField = new JTextField();
         mainPanel.add(recipientMailLabel);
         mainPanel.add(recipientMailField);
 
         JLabel subjectLabel = new JLabel("Subject: ");
-        JTextField subjectField = new JTextField();
+        subjectField = new JTextField();
         mainPanel.add(subjectLabel);
         mainPanel.add(subjectField);
 
@@ -31,7 +39,7 @@ public class SendMailFrame extends Frame {
         this.add(messagePanel, BorderLayout.CENTER);
 
         JLabel messageLabel = new JLabel("Message: ");
-        JTextArea messageArea = new JTextArea();
+        messageArea = new JTextArea();
         messagePanel.add(messageLabel, BorderLayout.NORTH);
         messagePanel.add(new JScrollPane(messageArea), BorderLayout.CENTER);
 
@@ -41,9 +49,26 @@ public class SendMailFrame extends Frame {
         sendPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         this.add(sendPanel, BorderLayout.SOUTH);
 
-        JButton sendButton = new JButton("Send");
+        sendButton = new JButton("Send");
         sendPanel.add(sendButton, BorderLayout.SOUTH);
 
         pack();
+    }
+
+    public String getRecipient() {
+        return recipientMailField.getText();
+    }
+
+    public String getSubject() {
+        return subjectField.getText();
+    }
+
+    public String getMessage() {
+        return messageArea.getText();
+    }
+
+    @Override
+    public void addButtonListener(ActionListener listener) {
+        sendButton.addActionListener(listener);
     }
 }

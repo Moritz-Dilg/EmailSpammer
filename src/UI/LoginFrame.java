@@ -2,8 +2,14 @@ package UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class LoginFrame extends Frame {
+    private JTextField smtpServerField;
+    private JTextField smtpPortField;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private JButton loginButton;
 
     public LoginFrame() {
         super("Login");
@@ -23,12 +29,12 @@ public class LoginFrame extends Frame {
         mainPanel.add(hostPanel, BorderLayout.NORTH);
 
         JLabel smtpServerLabel = new JLabel("SMTP Server: ");
-        JTextField smtpServerField = new JTextField();
+        smtpServerField = new JTextField();
         hostPanel.add(smtpServerLabel);
         hostPanel.add(smtpServerField);
 
         JLabel smtpPortLabel = new JLabel("SMTP Port: ");
-        JTextField smtpPortField = new JTextField();
+        smtpPortField = new JTextField();
         hostPanel.add(smtpPortLabel);
         hostPanel.add(smtpPortField);
 
@@ -39,19 +45,40 @@ public class LoginFrame extends Frame {
         mainPanel.add(loginPanel, BorderLayout.CENTER);
 
         JLabel usernameLabel = new JLabel("Username: ");
-        JTextField usernameField = new JTextField();
+        usernameField = new JTextField();
         loginPanel.add(usernameLabel);
         loginPanel.add(usernameField);
 
         JLabel passwordLabel = new JLabel("Password: ");
-        JPasswordField passwordField = new JPasswordField();
+        passwordField = new JPasswordField();
         loginPanel.add(passwordLabel);
         loginPanel.add(passwordField);
 
-        JButton loginButton = new JButton("Login");
+        loginButton = new JButton("Login");
         mainPanel.add(loginButton, BorderLayout.SOUTH);
 
         pack();
+    }
+
+    public String getSmtpServer() {
+        return smtpServerField.getText();
+    }
+
+    public String getSmtpPort() {
+        return smtpPortField.getText();
+    }
+
+    public String getUsername() {
+        return usernameField.getText();
+    }
+
+    public String getPassword() {
+        return new String(passwordField.getPassword());
+    }
+
+    @Override
+    public void addButtonListener(ActionListener listener) {
+        loginButton.addActionListener(listener);
     }
 
 }
