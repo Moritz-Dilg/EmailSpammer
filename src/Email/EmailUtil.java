@@ -12,16 +12,6 @@ public class EmailUtil {
 
     public EmailUtil(String host, String port, String username, String password) {
         session = createSMPTSession(host, port, username, password);
-        try {
-            Transport transport = session.getTransport();
-            transport.connect();
-            transport.close();
-        } catch (AuthenticationFailedException e) {
-            System.out.println("Authentication failed");
-            throw new RuntimeException(e);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public static Session createSMPTSession(String host, String port, String username, String password) {
@@ -49,6 +39,20 @@ public class EmailUtil {
             mimeMessage.setText(message);
             Transport.send(mimeMessage);
             System.out.println("Email.Email Message Sent Successfully");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean isLoggedIn() {
+        try {
+            Transport transport = session.getTransport();
+            transport.connect();
+            transport.close();
+
+            return true;
+        } catch (AuthenticationFailedException e) {
+            return false;
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
