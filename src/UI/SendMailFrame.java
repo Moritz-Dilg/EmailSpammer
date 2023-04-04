@@ -1,11 +1,15 @@
 package UI;
 
+import Filters.IntegerFilter;
+
 import javax.swing.*;
+import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class SendMailFrame extends Frame {
 
+    private JTextField numberOfMailsField;
     private JTextField recipientMailField;
     private JTextField subjectField;
     private JTextArea messageArea;
@@ -19,9 +23,16 @@ public class SendMailFrame extends Frame {
     @Override
     public void draw() {
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(3, 2));
+        mainPanel.setLayout(new GridLayout(4, 2));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
         this.add(mainPanel, BorderLayout.NORTH);
+
+        JLabel numberOfMailsLabel = new JLabel("Number of mails: ");
+        numberOfMailsField = new JTextField();
+        mainPanel.add(numberOfMailsLabel);
+        mainPanel.add(numberOfMailsField);
+        PlainDocument doc = (PlainDocument) numberOfMailsField.getDocument();
+        doc.setDocumentFilter(new IntegerFilter());
 
         JLabel recipientMailLabel = new JLabel("To: ");
         recipientMailField = new JTextField();
@@ -53,6 +64,10 @@ public class SendMailFrame extends Frame {
         sendPanel.add(sendButton, BorderLayout.SOUTH);
 
         pack();
+    }
+
+    public Integer getNumberOfMails() {
+        return Integer.parseInt(numberOfMailsField.getText());
     }
 
     public String getRecipient() {
