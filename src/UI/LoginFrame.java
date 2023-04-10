@@ -1,6 +1,9 @@
 package UI;
 
+import Filters.IntegerFilter;
+
 import javax.swing.*;
+import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -37,6 +40,8 @@ public class LoginFrame extends Frame {
         smtpPortField = new JTextField();
         hostPanel.add(smtpPortLabel);
         hostPanel.add(smtpPortField);
+        PlainDocument smtpPortFieldDoc = (PlainDocument) smtpPortField.getDocument();
+        smtpPortFieldDoc.setDocumentFilter(new IntegerFilter());
 
 
         JPanel loginPanel = new JPanel();
