@@ -65,6 +65,13 @@ public class LoginFrame extends Frame {
         pack();
     }
 
+    public void populateFields(String smtpServer, String smtpPort, String username, String password) {
+        smtpServerField.setText(smtpServer);
+        smtpPortField.setText(smtpPort);
+        usernameField.setText(username);
+        passwordField.setText(password);
+    }
+
     public String getSmtpServer() {
         return smtpServerField.getText();
     }

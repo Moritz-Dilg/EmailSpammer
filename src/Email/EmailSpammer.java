@@ -7,6 +7,7 @@ import UI.SendMailFrame;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.prefs.Preferences;
 
 public class EmailSpammer {
     private EmailUtil emailUtil;
@@ -14,14 +15,31 @@ public class EmailSpammer {
     private SendMailFrame sendMailFrame;
 
     public void login(ActionListener onLoggedIn) {
-        // TODO: read saved login data from file
         loginFrame = new LoginFrame();
         loginFrame.draw();
+
+        Preferences preferences = Preferences.userNodeForPackage(EmailSpammer.class);
+        final String savedHost = preferences.get("host", "");
+        final String savedPort = preferences.get("port", "");
+        final String savedUsername = preferences.get("username", "");
+        final String savedPassword = preferences.get("password", "");
+        loginFrame.populateFields(savedHost, savedPort, savedUsername, savedPassword);
         loginFrame.addButtonListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setEmailUtil(new EmailUtil(loginFrame.getSmtpServer(), loginFrame.getSmtpPort(), loginFrame.getUsername(), loginFrame.getPassword()));
+                final String host = loginFrame.getSmtpServer();
+                final String port = loginFrame.getSmtpPort();
+                final String username = loginFrame.getUsername();
+                final String password = loginFrame.getPassword();
+                setEmailUtil(new EmailUtil(host, port, username, password));
+
                 if (emailUtil.isLoggedIn()) {
+                    Preferences preferences = Preferences.userNodeForPackage(EmailSpammer.class);
+                    preferences.put("host", host);
+                    preferences.put("port", port);
+                    preferences.put("username", username);
+                    preferences.put("password", password);
+
                     loginFrame.dispose();
                     onLoggedIn.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "logged in"));
                 } else {
