@@ -1,12 +1,12 @@
 package Email;
 
-import Listeners.SendMailButtonActionListener;
 import UI.LoginFrame;
 import UI.SendMailFrame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import java.util.prefs.Preferences;
 
 public class EmailSpammer {
@@ -53,7 +53,7 @@ public class EmailSpammer {
     public void start() {
         sendMailFrame = new SendMailFrame();
         sendMailFrame.draw();
-        sendMailFrame.addButtonListener(new SendMailButtonActionListener(sendMailFrame, this));
+        sendMailFrame.addButtonListener(sendMailButtonActionListener);
     }
 
     public void setEmailUtil(EmailUtil emailUtil) {
@@ -63,4 +63,36 @@ public class EmailSpammer {
     public void sendMail(String to, String subject, String message) {
         emailUtil.sendMail(to, loginFrame.getUsername(), subject, message);
     }
+
+    private final ActionListener sendMailButtonActionListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            System.out.println("Send mail");
+            System.out.println("Recipient: " + sendMailFrame.getRecipient());
+            System.out.println("Subject: " + sendMailFrame.getSubject());
+            System.out.println("Message: " + sendMailFrame.getMessage());
+
+            Thread thread = new Thread(() -> {
+                for (int i = 0; i < sendMailFrame.getNumberOfMails(); i++) {
+                    sendMail(sendMailFrame.getRecipient(), sendMailFrame.getSubject(), sendMailFrame.getMessage());
+                    try {
+                        Thread.sleep(new Random().nextInt(50, 2000));
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+            thread.start();
+
+            try {
+                thread.join();
+                JOptionPane optionPane = new JOptionPane(sendMailFrame.getNumberOfMails() + " Mail(s) sent", JOptionPane.INFORMATION_MESSAGE);
+                JDialog dialog = optionPane.createDialog("Success");
+                dialog.setAlwaysOnTop(true);
+                dialog.setVisible(true);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    };
 }
