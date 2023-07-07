@@ -63,6 +63,7 @@ public class SendMailFrame extends Frame {
         sendButton = new JButton("Send");
         sendPanel.add(sendButton, BorderLayout.SOUTH);
 
+        getRootPane().setDefaultButton(sendButton);
         pack();
     }
 

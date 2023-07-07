@@ -62,6 +62,7 @@ public class LoginFrame extends Frame {
         loginButton = new JButton("Login");
         mainPanel.add(loginButton, BorderLayout.SOUTH);
 
+        getRootPane().setDefaultButton(loginButton);
         pack();
     }
 
