@@ -66,6 +66,10 @@ public class LoginFrame extends Frame {
     }
 
     public void populateFields(String smtpServer, String smtpPort, String username, String password) {
+        // Ensure that all fields are existing
+        if (smtpServerField == null || smtpPortField == null || usernameField == null || passwordField == null)
+            draw();
+
         smtpServerField.setText(smtpServer);
         smtpPortField.setText(smtpPort);
         usernameField.setText(username);
