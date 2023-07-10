@@ -30,18 +30,14 @@ public class EmailUtil {
         return Session.getInstance(props, authenticator);
     }
 
-    public void sendMail(String to, String from, String subject, String message) {
-        try {
-            Message mimeMessage = new MimeMessage(session);
-            mimeMessage.setFrom(new InternetAddress(from));
-            mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-            mimeMessage.setSubject(subject);
-            mimeMessage.setText(message);
-            Transport.send(mimeMessage);
-            System.out.println("Email.Email Message Sent Successfully");
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
+    public void sendMail(String to, String from, String subject, String message) throws MessagingException {
+        Message mimeMessage = new MimeMessage(session);
+        mimeMessage.setFrom(new InternetAddress(from));
+        mimeMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+        mimeMessage.setSubject(subject);
+        mimeMessage.setText(message);
+        Transport.send(mimeMessage);
+        System.out.println("Email.Email Message Sent Successfully");
     }
 
     public boolean isLoggedIn() {

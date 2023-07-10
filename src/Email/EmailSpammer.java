@@ -2,6 +2,7 @@ package Email;
 
 import UI.LoginFrame;
 import UI.SendMailFrame;
+import jakarta.mail.MessagingException;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -60,7 +61,7 @@ public class EmailSpammer {
         this.emailUtil = emailUtil;
     }
 
-    public void sendMail(String to, String subject, String message) {
+    public void sendMail(String to, String subject, String message) throws MessagingException {
         emailUtil.sendMail(to, loginFrame.getUsername(), subject, message);
     }
 
@@ -72,27 +73,28 @@ public class EmailSpammer {
             System.out.println("Subject: " + sendMailFrame.getSubject());
             System.out.println("Message: " + sendMailFrame.getMessage());
 
-            Thread thread = new Thread(() -> {
+            try {
                 for (int i = 0; i < sendMailFrame.getNumberOfMails(); i++) {
                     sendMail(sendMailFrame.getRecipient(), sendMailFrame.getSubject(), sendMailFrame.getMessage());
+
                     try {
                         Thread.sleep(new Random().nextInt(50, 2000));
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }
                 }
-            });
-            thread.start();
-
-            try {
-                thread.join();
-                JOptionPane optionPane = new JOptionPane(sendMailFrame.getNumberOfMails() + " Mail(s) sent", JOptionPane.INFORMATION_MESSAGE);
-                JDialog dialog = optionPane.createDialog("Success");
+            } catch (MessagingException e) {
+                JOptionPane optionPane = new JOptionPane("Failed to send Mail(s): " + e.getMessage() + "\nPlease check your network connection", JOptionPane.INFORMATION_MESSAGE);
+                JDialog dialog = optionPane.createDialog("Error sending Mail(s)");
                 dialog.setAlwaysOnTop(true);
                 dialog.setVisible(true);
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
+                return;
             }
+
+            JOptionPane optionPane = new JOptionPane(sendMailFrame.getNumberOfMails() + " Mail(s) sent", JOptionPane.INFORMATION_MESSAGE);
+            JDialog dialog = optionPane.createDialog("Success");
+            dialog.setAlwaysOnTop(true);
+            dialog.setVisible(true);
         }
     };
 }
