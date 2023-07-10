@@ -40,7 +40,7 @@ public class EmailUtil {
         System.out.println("Email.Email Message Sent Successfully");
     }
 
-    public boolean isLoggedIn() {
+    public boolean isLoggedIn() throws MessagingException {
         try {
             Transport transport = session.getTransport();
             transport.connect();
@@ -49,8 +49,6 @@ public class EmailUtil {
             return true;
         } catch (AuthenticationFailedException e) {
             return false;
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
         }
     }
 }

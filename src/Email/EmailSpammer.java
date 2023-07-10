@@ -34,18 +34,28 @@ public class EmailSpammer {
                 final String password = loginFrame.getPassword();
                 setEmailUtil(new EmailUtil(host, port, username, password));
 
-                if (emailUtil.isLoggedIn()) {
-                    Preferences preferences = Preferences.userNodeForPackage(EmailSpammer.class);
-                    preferences.put("host", host);
-                    preferences.put("port", port);
-                    preferences.put("username", username);
-                    preferences.put("password", password);
+                try {
+                    if (emailUtil.isLoggedIn()) {
+                        Preferences preferences = Preferences.userNodeForPackage(EmailSpammer.class);
+                        preferences.put("host", host);
+                        preferences.put("port", port);
+                        preferences.put("username", username);
+                        preferences.put("password", password);
 
-                    loginFrame.dispose();
-                    onLoggedIn.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "logged in"));
-                } else {
-                    System.out.println("Login failed");
-                    JOptionPane.showMessageDialog(loginFrame, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
+                        loginFrame.dispose();
+                        onLoggedIn.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "logged in"));
+                    } else {
+                        System.out.println("Login failed");
+                        JOptionPane.showMessageDialog(loginFrame, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (MessagingException ex) {
+                    JOptionPane optionPane = new JOptionPane("""
+                            Failed to authenticate at the SMTP Server
+
+                            Please check your network connection""", JOptionPane.ERROR_MESSAGE);
+                    JDialog dialog = optionPane.createDialog("Error logging in");
+                    dialog.setAlwaysOnTop(true);
+                    dialog.setVisible(true);
                 }
             }
         });
@@ -84,7 +94,8 @@ public class EmailSpammer {
                     }
                 }
             } catch (MessagingException e) {
-                JOptionPane optionPane = new JOptionPane("Failed to send Mail(s): " + e.getMessage() + "\nPlease check your network connection", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane optionPane = new JOptionPane("Failed to send Mail(s): " + e.getMessage() +
+                        "\n\nPlease check your network connection", JOptionPane.ERROR_MESSAGE);
                 JDialog dialog = optionPane.createDialog("Error sending Mail(s)");
                 dialog.setAlwaysOnTop(true);
                 dialog.setVisible(true);
