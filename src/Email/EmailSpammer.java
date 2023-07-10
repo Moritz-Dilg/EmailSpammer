@@ -93,9 +93,14 @@ public class EmailSpammer {
                         throw new RuntimeException(ex);
                     }
                 }
+            } catch (NumberFormatException e) {
+                JOptionPane optionPane = new JOptionPane("Please enter a valid number of EMails to send", JOptionPane.ERROR_MESSAGE);
+                JDialog dialog = optionPane.createDialog("Invalid number of EMails");
+                dialog.setAlwaysOnTop(true);
+                dialog.setVisible(true);
+                return;
             } catch (MessagingException e) {
-                JOptionPane optionPane = new JOptionPane("Failed to send Mail(s): " + e.getMessage() +
-                        "\n\nPlease check your network connection", JOptionPane.ERROR_MESSAGE);
+                JOptionPane optionPane = new JOptionPane("Failed to send Mail(s): " + e.getMessage(), JOptionPane.ERROR_MESSAGE);
                 JDialog dialog = optionPane.createDialog("Error sending Mail(s)");
                 dialog.setAlwaysOnTop(true);
                 dialog.setVisible(true);
