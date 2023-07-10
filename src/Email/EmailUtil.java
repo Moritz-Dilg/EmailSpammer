@@ -37,7 +37,6 @@ public class EmailUtil {
         mimeMessage.setSubject(subject);
         mimeMessage.setText(message);
         Transport.send(mimeMessage);
-        System.out.println("Email.Email Message Sent Successfully");
     }
 
     public boolean isLoggedIn() throws MessagingException {

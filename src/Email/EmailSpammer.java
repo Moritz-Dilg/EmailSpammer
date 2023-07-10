@@ -45,7 +45,6 @@ public class EmailSpammer {
                         loginFrame.dispose();
                         onLoggedIn.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "logged in"));
                     } else {
-                        System.out.println("Login failed");
                         JOptionPane.showMessageDialog(loginFrame, "Login failed", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (MessagingException ex) {
@@ -78,11 +77,6 @@ public class EmailSpammer {
     private final ActionListener sendMailButtonActionListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            System.out.println("Send mail");
-            System.out.println("Recipient: " + sendMailFrame.getRecipient());
-            System.out.println("Subject: " + sendMailFrame.getSubject());
-            System.out.println("Message: " + sendMailFrame.getMessage());
-
             try {
                 for (int i = 0; i < sendMailFrame.getNumberOfMails(); i++) {
                     sendMail(sendMailFrame.getRecipient(), sendMailFrame.getSubject(), sendMailFrame.getMessage());
