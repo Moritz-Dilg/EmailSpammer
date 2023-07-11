@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 public abstract class Frame extends JFrame {
     public Frame() {
-        this("Email.Email Spammer");
+        this("Email Spammer");
     }
 
     public Frame(String title) {
