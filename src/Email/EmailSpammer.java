@@ -96,7 +96,7 @@ public class EmailSpammer {
                                     
                                 Message:
                                 %s
-                                """.formatted(sendMailFrame.getNumberOfMails(), sendMailFrame.getRecipient(), sendMailFrame.getSubject(), sendMailFrame.getMessage()));;
+                                """.formatted(sendMailFrame.getNumberOfMails(), sendMailFrame.getRecipient(), sendMailFrame.getSubject(), sendMailFrame.getMessage()));
             } catch (NumberFormatException e) {
                 JOptionPane optionPane = new JOptionPane("Please enter a valid number of EMails to send", JOptionPane.ERROR_MESSAGE);
                 JDialog dialog = optionPane.createDialog("Invalid number of EMails");
